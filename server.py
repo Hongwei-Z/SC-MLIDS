@@ -16,7 +16,12 @@ def connect_clients(connection, address):
 
     # Receive client ID and file size
     id_size = connection.recv(1024).decode()
-    client_id, file_size = id_size.split(',')
+    client_id, file_size, ratio = id_size.split(',')
+
+    # Store the ratio in a file
+    with open('./models/ratio.txt', 'a') as f:
+        f.write(f"{client_id}:{ratio}\n")
+
     print(f'Connected to Client {client_id}\nAddress: {address}\n')
 
     start_time = time.time()

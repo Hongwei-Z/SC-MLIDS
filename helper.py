@@ -4,16 +4,13 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.model_selection import train_test_split
 
 
-# TODO: 在全局模型中增加平均计算，按照子模型的训练集比例，准确度，计算百分比，三个模型乘百分比，计算最终分类结果
-
-
 # Keep 10% of dataset for global model
 def load_testset(test_size: float):
     df = pd.read_csv('./datasets/label_data.csv')
     X = df.iloc[:, :-1]
     y = df.iloc[:, -1]
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
     trainset = pd.concat([X_train, y_train], axis=1)
     return trainset, X_test, y_test
 
@@ -25,7 +22,6 @@ def load_dataset(client_id: int):
     y = df.iloc[:, -1]
 
     # Split the dataset evenly into thirds, removing the remainders
-    np.random.seed(42)
     random_choose = np.random.choice(X.index, (len(X) % 3), replace=False)
     X = X.drop(random_choose)
     y = y.drop(random_choose)
@@ -40,9 +36,9 @@ def load_dataset(client_id: int):
     X_train, y_train, X_test, y_test = [], [], [], []
     train_size = 0.8
 
-    X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1,train_size=train_size, random_state=42)
-    X2_train, X2_test, y2_train, y2_test = train_test_split(X2, y2,train_size=train_size, random_state=42)
-    X3_train, X3_test, y3_train, y3_test = train_test_split(X3, y3,train_size=train_size, random_state=42)
+    X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, train_size=train_size)
+    X2_train, X2_test, y2_train, y2_test = train_test_split(X2, y2, train_size=train_size)
+    X3_train, X3_test, y3_train, y3_test = train_test_split(X3, y3, train_size=train_size)
 
     X_train.append(X1_train)
     X_train.append(X2_train)
@@ -62,6 +58,11 @@ def load_dataset(client_id: int):
 
     # Each of the following is divided equally into thirds
     return X_train[client_id], y_train[client_id], X_test[client_id], y_test[client_id]
+
+
+# Compute the proportion of 0
+def label_ratio(y_train) -> float:
+    return round(np.sum(y_train == 0) / len(y_train), 8)
 
 
 # Print the label distribution

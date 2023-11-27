@@ -82,20 +82,23 @@ pending update...
 2. **Example of running results on the client:**
     ```bash
     Client 1:
-
-    Client 1 model training completed in 36.980290 seconds.
+    
+    Label distribution in the training set: {0: 133998, 1: 22059}
+    Label distribution in the testing set: {0: 33556, 1: 5459}
+    
+    Client 1 model training completed in 38.708024 seconds.
     ---------------------
-    Accuracy : 0.93546072
-    Precision: 0.93478536
-    Recall   : 0.93546072
-    F1 Score : 0.92915943
+    Accuracy : 0.93451237
+    Precision: 0.93368981
+    Recall   : 0.93451237
+    F1 Score : 0.92811258
     ---------------------
     Client 1 model saved locally.
     Client 1 has connected to the server.
     Client ID has been sent from Client 1.
     Model file size has been sent from Client 1.
     Model file has been sent from Client 1.
-    Time taken to send model file: 0.078580 seconds.
+    Time taken to send model file: 0.091080 seconds.
     ```
 
 

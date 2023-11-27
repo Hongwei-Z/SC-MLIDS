@@ -15,6 +15,8 @@ PORT = 8080
 
 # Get the dataset for local model
 X_train, y_train, X_test, y_test = helper.load_dataset(client_id - 1)
+helper.label_distribution(y_train, y_test)
+ratio = helper.label_ratio(y_train)
 
 # Create and train the local model
 model = RandomForestClassifier(class_weight='balanced', criterion='entropy')
@@ -37,13 +39,13 @@ print(f"Client {client_id} model saved locally.")
 file_size = os.path.getsize(filename)
 
 
-# Sending the client ID, file size, and model file to the server
+# Sending the client ID, file size, label ratio, and model file to the server
 try:
     client = socket.socket()
     client.connect((HOST, PORT))
     print(f"Client {client_id} has connected to the server.")
 
-    client.sendall(f'{client_id},{file_size}'.encode())
+    client.sendall(f'{client_id},{file_size},{ratio}'.encode())
     print(f"Client ID has been sent from Client {client_id}.")
     print(f"Model file size has been sent from Client {client_id}.")
 
