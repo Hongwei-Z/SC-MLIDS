@@ -1,42 +1,60 @@
+import helper
 import socket
 import joblib
 from sklearn.ensemble import RandomForestClassifier
-import helper
+import os
+import time
 import warnings
 warnings.simplefilter('ignore')
 
 
 client_id = 2
 print(f"Client {client_id}:\n")
-HOST = "127.0.0.1"
+HOST = '127.0.0.1'
 PORT = 8080
 
 # Get the dataset for local model
 X_train, y_train, X_test, y_test = helper.load_dataset(client_id - 1)
 
 # Create and train the local model
-model = RandomForestClassifier(class_weight='balanced')
+model = RandomForestClassifier(class_weight='balanced', criterion='entropy')
+train_start = time.time()
 model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
+train_end = time.time()
+train_time = train_end - train_start
+print(f"Client {client_id} model training completed in {train_time:.6f} seconds.")
 
+# Test the local model and print metrics
+y_pred = model.predict(X_test)
 helper.display_metrics(y_test, y_pred)
 
-
 # Generate model file
-joblib.dump(model, f'model{client_id}.joblib')
+filename = f'local_model_{client_id}.joblib'
+joblib.dump(model, filename=filename)
+print(f"Client {client_id} model saved locally.")
 
-client = socket.socket()
-client.connect((HOST, PORT))
+# Get the size of the file
+file_size = os.path.getsize(filename)
 
-# Sending the model file to the server
+
+# Sending the client ID, file size, and model file to the server
 try:
-    # Send client ID
-    client.sendall(str(client_id).encode())
+    client = socket.socket()
+    client.connect((HOST, PORT))
+    print(f"Client {client_id} has connected to the server.")
 
-    with open(f'model{client_id}.joblib', 'rb') as file:
+    client.sendall(f'{client_id},{file_size}'.encode())
+    print(f"Client ID has been sent from Client {client_id}.")
+    print(f"Model file size has been sent from Client {client_id}.")
+
+    start_time = time.time()
+    with open(filename, 'rb') as file:
         sendfile = file.read()
     client.sendall(sendfile)
+    end_time = time.time()
+
     print(f"Model file has been sent from Client {client_id}.")
+    print(f"Time taken to send model file: {end_time - start_time:.6f} seconds.")
 
 except Exception as e:
     print(f"An error occurred: {e}")
