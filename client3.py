@@ -14,21 +14,17 @@ HOST = '127.0.0.1'
 PORT = 8080
 
 # Get the dataset for local model
-X_train, y_train, X_test, y_test = helper.load_dataset(client_id - 1)
-helper.label_distribution(y_train, y_test)
+X_train, y_train = helper.load_trainset(client_id - 1)
+helper.label_distribution(y_train)
 ratio = helper.label_ratio(y_train)
 
 # Create and train the local model
-model = RandomForestClassifier(class_weight='balanced', criterion='entropy')
+model = RandomForestClassifier()
 train_start = time.time()
 model.fit(X_train, y_train)
 train_end = time.time()
 train_time = train_end - train_start
 print(f"Client {client_id} model training completed in {train_time:.6f} seconds.")
-
-# Test the local model and print metrics
-y_pred = model.predict(X_test)
-helper.display_metrics(y_test, y_pred)
 
 # Generate model file
 filename = f'local_model_{client_id}.joblib'
