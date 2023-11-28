@@ -11,7 +11,7 @@ PORT = 8080
 
 # Receive model info and file from clients
 def connect_clients(connection, address):
-    path = "./models"
+    path = "./received_models"
     os.makedirs(path, exist_ok=True)
 
     # Receive client ID and file size
@@ -19,14 +19,14 @@ def connect_clients(connection, address):
     client_id, file_size, ratio = id_size.split(',')
 
     # Store the ratio in a file
-    with open('./models/ratio.txt', 'a') as f:
+    with open(f'{path}/ratio.txt', 'a') as f:
         f.write(f"{client_id}:{ratio}\n")
 
     print(f'Connected to Client {client_id}\nAddress: {address}\n')
 
     start_time = time.time()
 
-    filename = f"{path}/model_client_{client_id}.joblib"
+    filename = f"{path}/client_{client_id}.joblib"
     received_size = 0
     with connection, open(filename, 'wb') as file:
         while received_size < int(file_size):
@@ -39,11 +39,13 @@ def connect_clients(connection, address):
     end_time = time.time()
 
     if received_size == int(file_size):
-        print(f"Model file has been received from Client {client_id} and saved on {filename}.")
+        print(f"Model file has been received from Client {client_id} and saved to: {filename}")
+        size_in_mb = received_size / (1024 ** 2)
+        print(f"Client {client_id} model file size: {size_in_mb:.4f} MB")
     else:
-        print(f"Error: Received file size {received_size} does not match expected size {int(file_size)}.")
+        print(f"Error: Received file size {received_size} does not match expected size {int(file_size)}")
 
-    print(f"Time taken to receive model file from Client {client_id}: {end_time - start_time:.6f} seconds.\n")
+    print(f"Time taken to receive model file from Client {client_id}: {end_time - start_time:.4f} seconds\n")
 
 
 if __name__ == '__main__':

@@ -55,4 +55,4 @@ def display_metrics(y_test, y_pred):
     print(f"Precision: {precision:.8f}")
     print(f"Recall   : {recall:.8f}")
     print(f"F1 Score : {f1:.8f}")
-    print(line + '\n')
+    print(line + '\n\n')
