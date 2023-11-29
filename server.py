@@ -1,10 +1,12 @@
+import helper
 import socket
-import threading
 import os
 import time
+from cryptography.fernet import Fernet
+import zlib
 
 
-print(f"Server:\n")
+CLIENTS = 3
 HOST = "127.0.0.1"
 PORT = 8080
 
@@ -14,47 +16,74 @@ def connect_clients(connection, address):
     path = "./received_models"
     os.makedirs(path, exist_ok=True)
 
-    # Receive client ID and file size
-    id_size = connection.recv(1024).decode()
-    client_id, file_size, ratio = id_size.split(',')
+    # Receive salt, client id, file size, ratio
+    salt = connection.recv(16)
 
-    # Store the ratio in a file
+    received_data = b""
+    while True:
+        part = connection.recv(1024)
+        received_data += part
+        if b"\n" in part:
+            break
+    text_part = received_data.split(b"\n", 1)[0]
+    client_info = text_part.decode('utf-8')
+    client_id, file_size, ratio = client_info.split(',')
+    print(f'Connected to Client {client_id}\nAddress: {address}\n')
+
+    # Save ratio locally
     with open(f'{path}/ratio.txt', 'a') as f:
         f.write(f"{client_id}:{ratio}\n")
 
-    print(f'Connected to Client {client_id}\nAddress: {address}\n')
+    # Generate the key
+    key = helper.generate_key(float(ratio), salt)
+    print(f"Client {client_id} model decryption information:")
+    print(f"Key: {key}\nSeed: {ratio}\nSalt: {salt}\n")
 
-    start_time = time.time()
-
-    filename = f"{path}/client_{client_id}.joblib"
+    # Receive the compressed and encrypted model file
+    compressed_model = b''
     received_size = 0
-    with connection, open(filename, 'wb') as file:
-        while received_size < int(file_size):
-            data = connection.recv(4096)
-            if not data:
-                break
-            file.write(data)
-            received_size += len(data)
+    file_size = int(file_size)
+    recv_start = time.time()
+    while received_size < file_size:
+        data = connection.recv(16384)
+        if not data:
+            break
+        compressed_model += data
+        received_size += len(data)
+    recv_end = time.time()
+    print(f"Client {client_id} model file has been received, time spent: {recv_end - recv_start:.4f} second")
 
-    end_time = time.time()
-
-    if received_size == int(file_size):
-        print(f"Model file has been received from Client {client_id} and saved to: {filename}")
-        size_in_mb = received_size / (1024 ** 2)
+    # Match file size
+    if received_size == file_size:
+        size_in_mb = file_size / (1024 ** 2)
         print(f"Client {client_id} model file size: {size_in_mb:.4f} MB")
     else:
-        print(f"Error: Received file size {received_size} does not match expected size {int(file_size)}")
+        print(f"Error: Received file size {received_size} does not match expected size {file_size}")
 
-    print(f"Time taken to receive model file from Client {client_id}: {end_time - start_time:.4f} seconds\n")
+    # Decompress and decrypt model file
+    decr_start = time.time()
+    decompressed_model = zlib.decompress(compressed_model)
+    decrypted_model = Fernet(key).decrypt(decompressed_model)
+    decr_end = time.time()
+    print(f"Client {client_id} model file has been decompressed and decrypted, "
+          f"time spent: {decr_end - decr_start:.4f} seconds")
+
+    # Save the model file
+    filename = f"{path}/client_{client_id}.joblib"
+    with open(filename, 'wb') as file:
+        file.write(decrypted_model)
+    print(f"Client {client_id} model file has been saved to: {filename}")
+    print("-"*32 + f" Client {client_id} Completed " + "-"*32 + "\n")
 
 
-if __name__ == '__main__':
-    server = socket.socket()
-    server.bind((HOST, PORT))
-    server.listen(3)  # 3 clients
+server = socket.socket()
+server.bind((HOST, PORT))
+server.listen(CLIENTS)
 
-    print('Server is waiting for connections...\n')
-    while True:
-        client, address = server.accept()
-        client_thread = threading.Thread(target=connect_clients, args=(client, address))
-        client_thread.start()
+print('Server is waiting for connections...\n' + "-"*85)
+
+for _ in range(CLIENTS):
+    connection, address = server.accept()
+    connect_clients(connection, address)
+    connection.close()
+print("\nAll clients have been processed.")
