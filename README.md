@@ -42,49 +42,49 @@ Open two terminals, one for the server and another for the clients.
     Server is waiting for connections...
     -------------------------------------------------------------------------------------
     Connected to Client 1
-    Address: ('127.0.0.1', 51105)
+    Address: ('127.0.0.1', 54154)
     
     Client 1 model decryption information:
-    Key: b'msXoRJIMUvABzyvm7jtxKImOLwbCNANq8IUrpbMhkWE='
-    Seed: 0.86087805
-    Salt: b'+\xd6\xdc\xeb\xaa\xf7R\x86\xf5wA\x08\x0f\xcd\xda<'
+    Key: b'iXbqbgyvY-nikSVb8E2i9ep5-pUxgwH2NkUbhZULg3k='
+    Seed: 0.86039691
+    Salt: b'tSk\xc9=`G\x14\xc8\xab\xdb\xe2`\xd3\xd7a'
     
-    Client 1 model file has been received, time spent: 303.9753 second
-    Client 1 model file size: 204.8664 MB
-    Client 1 model file has been decompressed and decrypted, time spent: 2.4281 seconds
+    Client 1 model file has been received, time spent: 227.3206 seconds
+    Client 1 model file size: 206.3655 MB
+    Client 1 model file has been decompressed and decrypted, time spent: 1.6940 seconds
     Client 1 model file has been saved to: ./received_models/client_1.joblib
     -------------------------------- Client 1 Completed --------------------------------
     
     Connected to Client 2
-    Address: ('127.0.0.1', 52395)
+    Address: ('127.0.0.1', 54175)
     
     Client 2 model decryption information:
-    Key: b'enDtrYvIPnP0S9xZTYJmUUsVdOLT-6FEnoWrNaC4hZA='
-    Seed: 0.86141851
-    Salt: b'^V{"\x03\xb9\xed\xbcs\xae\xb1\xef\xc9J\x07\x0f'
+    Key: b'QAehMoSTindk6Wzx-Ucy06QunetEQE9pemqJ0mtc_Gs='
+    Seed: 0.86010691
+    Salt: b'c<YR\x8d\x18\x12\xe5\x8b\x1d\x84(6\xcc\xf9\xbb'
     
-    Client 2 model file has been received, time spent: 280.0054 second
-    Client 2 model file size: 205.4604 MB
-    Client 2 model file has been decompressed and decrypted, time spent: 2.4964 seconds
+    Client 2 model file has been received, time spent: 227.1617 seconds
+    Client 2 model file size: 206.6128 MB
+    Client 2 model file has been decompressed and decrypted, time spent: 1.6799 seconds
     Client 2 model file has been saved to: ./received_models/client_2.joblib
     -------------------------------- Client 2 Completed --------------------------------
     
     Connected to Client 3
-    Address: ('127.0.0.1', 52659)
+    Address: ('127.0.0.1', 54193)
     
     Client 3 model decryption information:
-    Key: b'vNcH31fthSJpKVWU80h3DoTM2-yIOjyk7-vvZqnA8ek='
-    Seed: 0.86014645
-    Salt: b'T\x13G\xc3\x84\xb2SqJs\xca|\xbd_\xba\x90'
+    Key: b'tyM0V7IVLwvNUv7FFUz15CpaKjD_4j_FdAqbq-Ge6FY='
+    Seed: 0.86058145
+    Salt: b'\xe5\xac\xac\xe2\\\xf6\x8b\xa8\r\xaa\n\x9a\x1bN~T'
     
-    Client 3 model file has been received, time spent: 316.0717 second
-    Client 3 model file size: 204.4848 MB
-    Client 3 model file has been decompressed and decrypted, time spent: 2.7052 seconds
+    Client 3 model file has been received, time spent: 225.5959 seconds
+    Client 3 model file size: 205.4918 MB
+    Client 3 model file has been decompressed and decrypted, time spent: 1.6951 seconds
     Client 3 model file has been saved to: ./received_models/client_3.joblib
     -------------------------------- Client 3 Completed --------------------------------
-    
+   
     All clients have been processed.
-    
+  
     C:\Users>
    ```
 2. **Clients running results (second terminal):**
@@ -92,62 +92,62 @@ Open two terminals, one for the server and another for the clients.
     C:\Users>python client1.py
     Client 1:
     
-    Label distribution in the training set: {0: 130615, 1: 21108}
+    Label distribution in the training set: {0: 130542, 1: 21181}
     
-    Client 1 model training completed in 30.5484 seconds.
+    Client 1 model training completed in 28.6346 seconds.
     Client 1 model saved to: ./client_models/client_1.joblib
     
     Client 1 model encryption information:
-    Key: b'msXoRJIMUvABzyvm7jtxKImOLwbCNANq8IUrpbMhkWE='
-    Seed: 0.86087805
-    Salt: b'+\xd6\xdc\xeb\xaa\xf7R\x86\xf5wA\x08\x0f\xcd\xda<'
+    Key: b'iXbqbgyvY-nikSVb8E2i9ep5-pUxgwH2NkUbhZULg3k='
+    Seed: 0.86039691
+    Salt: b'tSk\xc9=`G\x14\xc8\xab\xdb\xe2`\xd3\xd7a'
     
-    Model file size: 202.8299 MB
-    Model file encrypted, file size: 270.4399 MB, time spent: 1.0805 seconds
-    Model file compressed, file size: 204.8664 MB, time spent: 7.8461 seconds
+    Model file size: 204.3136 MB
+    Model file encrypted, file size: 272.4182 MB, time spent: 1.0880 seconds
+    Model file compressed, file size: 206.3655 MB, time spent: 7.3482 seconds
     
     Client 1 has connected to the server.
-    Model file has been sent from Client 1, file size: 204.8664 MB, time spent: 0.0234 seconds
+    Model file has been sent from Client 1, file size: 206.3655 MB, time spent: 0.0156 seconds
     
     C:\Users>python client2.py
     Client 2:
     
-    Label distribution in the training set: {0: 130697, 1: 21026}
+    Label distribution in the training set: {0: 130498, 1: 21225}
     
-    Client 2 model training completed in 28.8430 seconds.
+    Client 2 model training completed in 28.8351 seconds.
     Client 2 model saved to: ./client_models/client_2.joblib
     
     Client 2 model encryption information:
-    Key: b'enDtrYvIPnP0S9xZTYJmUUsVdOLT-6FEnoWrNaC4hZA='
-    Seed: 0.86141851
-    Salt: b'^V{"\x03\xb9\xed\xbcs\xae\xb1\xef\xc9J\x07\x0f'
+    Key: b'QAehMoSTindk6Wzx-Ucy06QunetEQE9pemqJ0mtc_Gs='
+    Seed: 0.86010691
+    Salt: b'c<YR\x8d\x18\x12\xe5\x8b\x1d\x84(6\xcc\xf9\xbb'
     
-    Model file size: 203.4179 MB
-    Model file encrypted, file size: 271.2240 MB, time spent: 1.0607 seconds
-    Model file compressed, file size: 205.4604 MB, time spent: 7.2820 seconds
+    Model file size: 204.5590 MB
+    Model file encrypted, file size: 272.7454 MB, time spent: 1.0844 seconds
+    Model file compressed, file size: 206.6128 MB, time spent: 7.3530 seconds
     
     Client 2 has connected to the server.
-    Model file has been sent from Client 2, file size: 205.4604 MB, time spent: 0.0151 seconds
+    Model file has been sent from Client 2, file size: 206.6128 MB, time spent: 0.0151 seconds
     
     C:\Users>python client3.py
     Client 3:
     
-    Label distribution in the training set: {0: 130504, 1: 21219}
+    Label distribution in the training set: {0: 130570, 1: 21153}
     
-    Client 3 model training completed in 38.6214 seconds.
+    Client 3 model training completed in 28.6886 seconds.
     Client 3 model saved to: ./client_models/client_3.joblib
     
     Client 3 model encryption information:
-    Key: b'vNcH31fthSJpKVWU80h3DoTM2-yIOjyk7-vvZqnA8ek='
-    Seed: 0.86014645
-    Salt: b'T\x13G\xc3\x84\xb2SqJs\xca|\xbd_\xba\x90'
+    Key: b'tyM0V7IVLwvNUv7FFUz15CpaKjD_4j_FdAqbq-Ge6FY='
+    Seed: 0.86058145
+    Salt: b'\xe5\xac\xac\xe2\\\xf6\x8b\xa8\r\xaa\n\x9a\x1bN~T'
     
-    Model file size: 202.4519 MB
-    Model file encrypted, file size: 269.9359 MB, time spent: 1.5425 seconds
-    Model file compressed, file size: 204.4848 MB, time spent: 10.3495 seconds
+    Model file size: 203.4494 MB
+    Model file encrypted, file size: 271.2659 MB, time spent: 1.0884 seconds
+    Model file compressed, file size: 205.4918 MB, time spent: 7.2975 seconds
     
     Client 3 has connected to the server.
-    Model file has been sent from Client 3, file size: 204.4848 MB, time spent: 0.0170 seconds
+    Model file has been sent from Client 3, file size: 205.4918 MB, time spent: 0.0156 seconds
     
     C:\Users>
     ```

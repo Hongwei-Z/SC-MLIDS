@@ -51,7 +51,7 @@ def connect_clients(connection, address):
         compressed_model += data
         received_size += len(data)
     recv_end = time.time()
-    print(f"Client {client_id} model file has been received, time spent: {recv_end - recv_start:.4f} second")
+    print(f"Client {client_id} model file has been received, time spent: {recv_end - recv_start:.4f} seconds")
 
     # Match file size
     if received_size == file_size:
