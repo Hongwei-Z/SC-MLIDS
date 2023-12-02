@@ -7,31 +7,45 @@ from cryptography.hazmat.primitives import hashes
 import base64
 
 
-# Getting the testing set from a dataset
-def load_testset(test_size: float):
-    df = pd.read_csv('./datasets/label_data.csv')
-    X = df.iloc[:, :-1]
-    y = df.iloc[:, -1]
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, shuffle=True)
-    trainset = pd.concat([X_train, y_train], axis=1)
-    return trainset, X_test, y_test
+# Split the train set and test set
+def split_dataset(test_size=0.3):
+    df = pd.read_csv('./datasets/merged_data.csv')
+    train_set, test_set = train_test_split(df, test_size=test_size, shuffle=True)
+    return train_set, test_set
 
 
-# Divide the training set into thirds for three clients
-def load_trainset(client_id: int):
-    df, _, _ = load_testset(test_size=0.3)
-    X = df.iloc[:, :-1]
-    y = df.iloc[:, -1]
+# Split the train set to sensor train set and network train set
+def split_train_set():
+    train_set, _ = split_dataset()
+    sensor_train = train_set.iloc[:, list(range(3)) + [-1]]
+    network_train = train_set.iloc[:, 3:17]
+    return sensor_train, network_train
 
-    # Split the dataset evenly into thirds, removing the remainders
-    random_choose = np.random.choice(X.index, (len(X) % 3), replace=False)
-    X = X.drop(random_choose)
-    y = y.drop(random_choose)
 
-    # Split the dataset into 3 subsets for 3 clients
-    X_train, y_train = np.split(X, 3), np.split(y, 3)
-    return X_train[client_id], y_train[client_id]
+# Return the test set
+def load_test_set():
+    _, test_set = split_dataset()
+    return test_set
+
+
+# Split the sensor train set evenly into thirds, return one set
+def load_sensor_train_set(client_id: int):
+    if 0 <= client_id <= 2:  # Default: 3 clients
+        sensor_train, _ = split_train_set()
+        X = sensor_train.iloc[:, :-1]
+        y = sensor_train.iloc[:, -1]
+
+        # Split the dataset evenly into thirds, removing the remainders
+        random_choose = np.random.choice(X.index, (len(X) % 3), replace=False)
+        X = X.drop(random_choose)
+        y = y.drop(random_choose)
+
+        # Split the dataset into 3 subsets for 3 clients
+        X_train, y_train = np.split(X, 3), np.split(y, 3)
+        return X_train[client_id], y_train[client_id]
+    else:
+        print("Error: The client number exceeds the default of 3. Please modify the code to accept more clients.")
+        return
 
 
 # Compute the proportion of 0
