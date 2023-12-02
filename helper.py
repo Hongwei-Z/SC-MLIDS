@@ -62,19 +62,22 @@ def label_distribution(y_train):
 
 
 # Print metrics
-def display_metrics(y_test, y_pred):
+def display_metrics(y_test, y_pred, printout=False):
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='weighted')
     recall = recall_score(y_test, y_pred, average='weighted')
     f1 = f1_score(y_test, y_pred, average='weighted')
 
-    line = "-" * 21
-    print(line)
-    print(f"Accuracy : {accuracy:.8f}")
-    print(f"Precision: {precision:.8f}")
-    print(f"Recall   : {recall:.8f}")
-    print(f"F1 Score : {f1:.8f}")
-    print(line + '\n\n')
+    if printout:
+        line = "-" * 21
+        print(line)
+        print(f"Accuracy : {accuracy:.8f}")
+        print(f"Precision: {precision:.8f}")
+        print(f"Recall   : {recall:.8f}")
+        print(f"F1 Score : {f1:.8f}")
+        print(line + '\n\n')
+
+    return accuracy, precision, recall, f1
 
 
 # Generate key using label_ratio

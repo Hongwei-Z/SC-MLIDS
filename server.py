@@ -4,6 +4,8 @@ import os
 import time
 from cryptography.fernet import Fernet
 import zlib
+from sklearn.ensemble import RandomForestClassifier
+import joblib
 
 
 CLIENTS = 3
@@ -86,4 +88,26 @@ for _ in range(CLIENTS):
     connection, address = server.accept()
     connect_clients(connection, address)
     connection.close()
-print("\nAll clients have been processed.")
+print("-"*26 + ' All Clients Have Been Processed ' + "-"*26)
+
+
+# Train the network model
+print("\nTraining the global model using network traffic data...")
+_, network_train = helper.split_train_set()
+X = network_train.iloc[:, :-1]
+y = network_train.iloc[:, -1]
+helper.label_distribution(y)
+
+network_model = RandomForestClassifier()
+train_start = time.time()
+network_model.fit(X, y)
+train_end = time.time()
+train_time = train_end - train_start
+print(f"Global model training completed in {train_time:.4f} seconds.")
+
+# Generate model file
+global_file = './received_models/global_model.joblib'
+joblib.dump(network_model, filename=global_file)
+print(f"Global model saved to: {global_file}")
+
+print("-"*37 + ' All Done ' + "-"*37)
