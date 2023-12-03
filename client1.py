@@ -18,8 +18,8 @@ PORT = 8080
 
 # Get the dataset for local model
 X_train, y_train = helper.load_sensor_train_set(client_id - 1)
-helper.label_distribution(y_train)
-ratio = helper.label_ratio(y_train)
+helper.print_label_distribution(y_train)
+ratio = helper.get_label_ratio(y_train)
 
 # Create and train the local model
 model = RandomForestClassifier()

@@ -82,21 +82,21 @@ server = socket.socket()
 server.bind((HOST, PORT))
 server.listen(CLIENTS)
 
-print('Server is waiting for connections...\n' + "-"*85)
+print('Server is waiting for connections ...\n' + "-"*84)
 
 for _ in range(CLIENTS):
     connection, address = server.accept()
     connect_clients(connection, address)
     connection.close()
-print("-"*26 + ' All Clients Have Been Processed ' + "-"*26)
+print("-"*26 + ' All Clients Have Been Processed ' + "-"*25)
 
 
 # Train the network model
-print("\nTraining the global model using network traffic data...")
-_, network_train = helper.split_train_set()
+print("Training the global model using network traffic data ...")
+network_train = helper.load_network_train_set()
 X = network_train.iloc[:, :-1]
 y = network_train.iloc[:, -1]
-helper.label_distribution(y)
+helper.print_label_distribution(y)
 
 network_model = RandomForestClassifier()
 train_start = time.time()

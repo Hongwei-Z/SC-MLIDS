@@ -48,21 +48,27 @@ def load_sensor_train_set(client_id: int):
         return
 
 
+# Load network traffic data
+def load_network_train_set():
+    _, network_train = split_train_set()
+    return network_train
+
+
 # Compute the proportion of 0
-def label_ratio(y_train) -> float:
+def get_label_ratio(y_train) -> float:
     ratio = round(np.sum(y_train == 0) / len(y_train), 8)
     return ratio
 
 
 # Print the label distribution
-def label_distribution(y_train):
+def print_label_distribution(y_train):
     unique, counts = np.unique(y_train, return_counts=True)
     train_counts = dict(zip(unique, counts))
     print("Label distribution in the training set:", train_counts, '\n')
 
 
 # Print metrics
-def display_metrics(y_test, y_pred, printout=False):
+def get_metrics(y_test, y_pred, printout=False):
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='weighted')
     recall = recall_score(y_test, y_pred, average='weighted')
@@ -75,7 +81,7 @@ def display_metrics(y_test, y_pred, printout=False):
         print(f"Precision: {precision:.8f}")
         print(f"Recall   : {recall:.8f}")
         print(f"F1 Score : {f1:.8f}")
-        print(line + '\n\n')
+        print(line + '\n')
 
     return accuracy, precision, recall, f1
 
