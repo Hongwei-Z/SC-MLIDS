@@ -25,7 +25,9 @@ def split_train_set():
 # Return the test set
 def load_test_set():
     _, test_set = split_dataset()
-    return test_set
+    sensor_test = test_set.iloc[:, list(range(3)) + [-1]]
+    network_test = test_set.iloc[:, 3:17]
+    return sensor_test, network_test
 
 
 # Split the sensor train set evenly into thirds, return one set
@@ -81,7 +83,7 @@ def get_metrics(y_test, y_pred, printout=False):
         print(f"Precision: {precision:.8f}")
         print(f"Recall   : {recall:.8f}")
         print(f"F1 Score : {f1:.8f}")
-        print(line + '\n')
+        print(line + '\n\n')
 
     return accuracy, precision, recall, f1
 
