@@ -30,21 +30,21 @@ def load_test_set():
     return sensor_test, network_test
 
 
-# Split the sensor train set evenly into thirds, return one set
+# Split the sensor train set evenly into thirds, return one of them
 def load_sensor_train_set(client_id: int):
     if 0 <= client_id <= 2:  # Default: 3 clients
         sensor_train, _ = split_train_set()
-        X = sensor_train.iloc[:, :-1]
+        x = sensor_train.iloc[:, :-1]
         y = sensor_train.iloc[:, -1]
 
         # Split the dataset evenly into thirds, removing the remainders
-        random_choose = np.random.choice(X.index, (len(X) % 3), replace=False)
-        X = X.drop(random_choose)
+        random_choose = np.random.choice(x.index, (len(x) % 3), replace=False)
+        x = x.drop(random_choose)
         y = y.drop(random_choose)
 
         # Split the dataset into 3 subsets for 3 clients
-        X_train, y_train = np.split(X, 3), np.split(y, 3)
-        return X_train[client_id], y_train[client_id]
+        x_train, y_train = np.split(x, 3), np.split(y, 3)
+        return x_train[client_id], y_train[client_id]
     else:
         print("Error: The client number exceeds the default of 3. Please modify the code to accept more clients.")
         return
@@ -63,13 +63,13 @@ def get_label_ratio(y_train) -> float:
 
 
 # Print the label distribution
-def print_label_distribution(y_train):
-    unique, counts = np.unique(y_train, return_counts=True)
-    train_counts = dict(zip(unique, counts))
-    print("Label distribution in the training set:", train_counts, '\n')
+def print_label_distribution(y):
+    unique, counts = np.unique(y, return_counts=True)
+    label_counts = dict(zip(unique, counts))
+    print("Label distribution in the training set:", label_counts, '\n')
 
 
-# Print metrics
+# Get and print metrics
 def get_metrics(y_test, y_pred, printout=False):
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='weighted')
@@ -77,18 +77,18 @@ def get_metrics(y_test, y_pred, printout=False):
     f1 = f1_score(y_test, y_pred, average='weighted')
 
     if printout:
-        line = "-" * 21
+        line = "-" * 29
         print(line)
-        print(f"Accuracy : {accuracy:.8f}")
-        print(f"Precision: {precision:.8f}")
-        print(f"Recall   : {recall:.8f}")
-        print(f"F1 Score : {f1:.8f}")
+        print(f"Accuracy : {accuracy}")
+        print(f"Precision: {precision}")
+        print(f"Recall   : {recall}")
+        print(f"F1 Score : {f1}")
         print(line + '\n\n')
 
     return accuracy, precision, recall, f1
 
 
-# Generate key using label_ratio
+# Generate key using label ratio
 def generate_key(ratio, salt):
     seed = str(ratio).encode()
     kdf = PBKDF2HMAC(
