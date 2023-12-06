@@ -1,5 +1,6 @@
 ## MCS Project
-### A Novel Federated Learning-Based Distributed Machine Learning Security Scheme for Wireless Sensor Networks
+### (United, Allied, Synergistic, Integrated, Associated, Networked) Machine Learning
+### A Federated Learning-Based Distributed Machine Learning Security Scheme for Wireless Sensor Networks
 #### Author: Hongwei Zhang
 
 ### Getting Started
@@ -162,7 +163,8 @@ Open two terminals, one for the server and another for the clients.
 
 
 Citations:   
-1. [scikit-learn: RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
-2. [Real Python: Socket Programming in Python](https://realpython.com/python-sockets/)
-3. [Stack Overflow: Send big file over socket](https://stackoverflow.com/questions/56194446/send-big-file-over-socket)
-4. [Cryptography: Fernet](https://cryptography.io/en/latest/fernet/)
+1. [The TON_IoT Datasets](https://research.unsw.edu.au/projects/toniot-datasets)
+2. [scikit-learn: RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
+3. [Real Python: Socket Programming in Python](https://realpython.com/python-sockets/)
+4. [Stack Overflow: Send big file over socket](https://stackoverflow.com/questions/56194446/send-big-file-over-socket)
+5. [Cryptography: Fernet](https://cryptography.io/en/latest/fernet/)
