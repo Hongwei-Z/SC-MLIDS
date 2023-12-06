@@ -64,7 +64,7 @@ try:
     # Connect to the server
     client = socket.socket()
     client.connect((HOST, PORT))
-    print(f"\nClient {client_id} has connected to the server.")
+    print(f"\nClient {client_id} has connected to the server")
 
     # Send salt, client id, file size, ratio
     client.sendall(salt)
@@ -86,3 +86,5 @@ except Exception as e:
     print(f"An error occurred: {e}")
 finally:
     client.close()
+
+print("-" * 35 + f" Client {client_id} Completed " + "-" * 35)

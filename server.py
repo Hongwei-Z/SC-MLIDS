@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 import zlib
 from sklearn.ensemble import RandomForestClassifier
 import joblib
-
+from tqdm import tqdm
 
 CLIENTS = 3
 HOST = "127.0.0.1"
@@ -30,7 +30,7 @@ def connect_clients(connection, address):
     text_part = received_data.split(b"\n", 1)[0]
     client_info = text_part.decode('utf-8')
     client_id, file_size, ratio = client_info.split(',')
-    print(f'Connected to Client {client_id}\nAddress: {address}\n')
+    print(f'Connected to Client {client_id}:\nAddress: {address}\n')
 
     # Save ratio locally
     with open(f'{path}/ratio.txt', 'a') as f:
@@ -45,15 +45,21 @@ def connect_clients(connection, address):
     compressed_model = b''
     received_size = 0
     file_size = int(file_size)
-    recv_start = time.time()
-    while received_size < file_size:
-        data = connection.recv(16384)
-        if not data:
-            break
-        compressed_model += data
-        received_size += len(data)
-    recv_end = time.time()
-    print(f"Client {client_id} model file has been received, time spent: {recv_end - recv_start:.4f} seconds")
+
+    with tqdm(range(file_size),
+              f"Receiving Client {client_id} model file",
+              unit="B", unit_scale=True, unit_divisor=1024) as progress:
+        recv_start = time.time()
+        while received_size < file_size:
+            data = connection.recv(16384)
+            if not data:
+                break
+            compressed_model += data
+            received_size += len(data)
+            progress.update(len(data))
+        progress.close()
+        recv_end = time.time()
+        print(f"Client {client_id} model file has been received, time spent: {recv_end - recv_start:.4f} seconds")
 
     # Match file size
     if received_size == file_size:
@@ -75,21 +81,20 @@ def connect_clients(connection, address):
     with open(filename, 'wb') as file:
         file.write(decrypted_model)
     print(f"Client {client_id} model file has been saved to: {filename}")
-    print("-"*32 + f" Client {client_id} Completed " + "-"*32 + "\n")
+    print("-" * 45 + f" Client {client_id} Completed " + "-" * 45 + "\n")
 
 
 server = socket.socket()
 server.bind((HOST, PORT))
 server.listen(CLIENTS)
 
-print('Server is waiting for connections ...\n' + "-"*84)
+print('Server is waiting for connections ...\n' + "-" * 110)
 
 for _ in range(CLIENTS):
     connection, address = server.accept()
     connect_clients(connection, address)
     connection.close()
-print("-"*26 + ' All Clients Have Been Processed ' + "-"*25)
-
+print("-" * 39 + ' All Clients Have Been Processed ' + "-" * 38)
 
 # Train the network model
 print("Training the global model using network traffic data ...")
@@ -110,4 +115,4 @@ global_file = './received_models/global_model.joblib'
 joblib.dump(network_model, filename=global_file)
 print(f"Global model saved to: {global_file}")
 
-print("-"*37 + ' All Done ' + "-"*37)
+print("-" * 50 + ' All Done ' + "-" * 50)
