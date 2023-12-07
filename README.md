@@ -25,19 +25,19 @@
 
 > #### Get Started:
 >> 1. Start the server and clients, train the models, transfer the models, and save the models. Open two terminals, one for the server and another for the clients.   
->>     1. In the first terminal, load the helper and start the server:   
->>        ```bash   
->>        python helper.py
->>        python server.py
->>        ```   
->
->>    2. In the second terminal, run each of the three clients:   
->>       ```bash
->>       # Note: Run the next client only after seeing the previous client's task completed in the server terminal.
->>       python client1.py
->>       python client2.py
->>       python client3.py
->>       ```
+>>      1. In the first terminal, load the helper and start the server:   
+>>          ```bash   
+>>          python helper.py
+>>          python server.py
+>>          ```   
+>    
+>>      2. In the second terminal, run each of the three clients:   
+>>          ```bash
+>>          # Note: Run the next client only after seeing the previous client's task completed in the server terminal.
+>>          python client1.py
+>>          python client2.py
+>>          python client3.py
+>>          ```
 >
 >> 2. Test the models using the model aggregated prediction methods in file `aggregated_predict.py`. Run file `Demo_Aggregated_Prediction.ipynb`. This step should be integrated into the server in the WSN simulation,  it is separated here for ease of demonstration.    
 
