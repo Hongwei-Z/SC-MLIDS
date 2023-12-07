@@ -30,7 +30,7 @@
 >>          python helper.py
 >>          python server.py
 >>          ```   
->    
+>>    
 >>      2. In the second terminal, run each of the three clients:   
 >>          ```bash
 >>          # Note: Run the next client only after seeing the previous client's task completed in the server terminal.
