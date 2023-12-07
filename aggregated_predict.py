@@ -20,10 +20,6 @@ def aggregate_predict_by_score(models_predictions, models_metrics, models_weight
         Array of final predictions given after integrating all models.
     """
 
-    if len(models_predictions) != len(models_metrics) != len(models_weights):
-        print("Error: Incorrect length of input parameters.")
-        return
-
     # Calculate weighted scores using precision and f1
     weighted_scores = []
     for m in models_metrics:
@@ -67,18 +63,22 @@ def aggregate_predict_by_vote(models_predictions):
     majority_votes = []
 
     for i in range(len(models_predictions[0])):
-        result_sum = models_predictions[0][i] + models_predictions[1][i] + models_predictions[2][i]
+        result_sum = 0
+        for j in range(len(models_predictions) - 1):
+            result_sum += models_predictions[j][i]
+
         if result_sum >= 1:
             vote = 1
         else:
             vote = 0
         majority_votes.append(vote)
+
     majority_votes = np.array(majority_votes)
 
     final_prediction = []
-    for j in range(len(majority_votes)):
-        if majority_votes[j] == models_predictions[-1][j]:
-            final_prediction.append(majority_votes[j])
+    for k in range(len(majority_votes)):
+        if majority_votes[k] == models_predictions[-1][k]:
+            final_prediction.append(majority_votes[k])
         else:
             final_prediction.append(1)
     final_prediction = np.array(final_prediction)
