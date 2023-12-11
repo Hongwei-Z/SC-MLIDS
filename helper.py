@@ -8,7 +8,7 @@ import base64
 
 
 # Split the train set and test set
-def split_dataset(test_size=0.3):
+def split_dataset(test_size=0.2):
     df = pd.read_csv('./datasets/merged_data.csv')
     train_set, test_set = train_test_split(df, test_size=test_size, shuffle=True)
     return train_set, test_set
