@@ -7,6 +7,12 @@ from cryptography.hazmat.primitives import hashes
 import base64
 
 
+def get_host_port():
+    host = '127.0.0.1'
+    port = 8080
+    return host, port
+
+
 # Split the train set and test set
 def split_dataset(test_size=0.2):
     df = pd.read_csv('./datasets/merged_data.csv')
@@ -53,7 +59,9 @@ def load_sensor_train_set(client_id: int):
 # Load network traffic data
 def load_network_train_set():
     _, network_train = split_train_set()
-    return network_train
+    x_train = network_train.iloc[:, :-1]
+    y_train = network_train.iloc[:, -1]
+    return x_train, y_train
 
 
 # Compute the proportion of 0
@@ -66,7 +74,7 @@ def get_label_ratio(y_train) -> float:
 def print_label_distribution(y):
     unique, counts = np.unique(y, return_counts=True)
     label_counts = dict(zip(unique, counts))
-    print("Label distribution in the training set:", label_counts, '\n')
+    print("Target distribution:", label_counts, '\n')
 
 
 # Get and print metrics
@@ -88,7 +96,7 @@ def get_metrics(y_test, y_pred, printout=False):
     return accuracy, precision, recall, f1
 
 
-# Generate key using label ratio
+# Generate key using target ratio
 def generate_key(ratio, salt):
     seed = str(ratio).encode()
     kdf = PBKDF2HMAC(

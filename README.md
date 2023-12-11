@@ -54,52 +54,52 @@ This is a Wireless Sensor Network (WSN) Intrusion Detection model which includes
    Server is waiting for connections ...
    --------------------------------------------------------------------------------------------------------------
    Connected to Client 1:
-   Address: ('127.0.0.1', 63042)
-    
+   Address: ('127.0.0.1', 54742)
+   
    Client 1 model decryption information:
-   Key: b'6UtywGHbi8npnxPyY4P83P5XcQDHxJuq_lwzaIVxIPc='
-   Seed: 0.09432617
-   Salt: b'g\x84P\xa2^#8\x1b\xc0\xca\xdf\xad\x0bn%\xec'
-    
-   Receiving Client 1 model file: 100%|███████████████████████████████████████| 236M/236M [05:15<00:00, 786kB/s]
-   Client 1 model file has been received, time spent: 315.0624 seconds
-   Client 1 model file size: 236.1866 MB
-   Client 1 model file has been decompressed and decrypted, time spent: 1.9954 seconds
+   Key: b'ZJg3BjY6SI0hL9h8IYYf9GxsUR5aqtd6ntQU5wXpjTs='
+   Seed: 0.60792627
+   Salt: b'\x03\x02\x8a\xcd\xe5\xd2\xdf\xfa\x00q\xc3\xee~\x85\xef\xdf'
+   
+   Receiving Client 1 model file: 100%|██████████████████████████████████████| 108M/108M [01:20<00:00, 1.41MB/s]
+   Client 1 model file has been received, time spent: 80.2155 seconds
+   Client 1 model file size: 107.5145 MB
+   Client 1 model file has been decompressed and decrypted, time spent: 1.1003 seconds
    Client 1 model file has been saved to: ./received_models/client_1.joblib
    --------------------------------------------- Client 1 Completed ---------------------------------------------
    Connected to Client 2:
-   Address: ('127.0.0.1', 63056)
-    
+   Address: ('127.0.0.1', 54814)
+   
    Client 2 model decryption information:
-   Key: b'1newWib-Z_CJtKuNV5Fylr5kQYADwFF8nm-LPthaYL0='
-   Seed: 0.09403347
-   Salt: b'\x05\xa7\x9f\xab)\x96\xaeH|\xf1Z\xdd\xe2\x01\x9e\x1f'
-    
-   Receiving Client 2 model file: 100%|███████████████████████████████████████| 234M/234M [05:09<00:00, 792kB/s]
-   Client 2 model file has been received, time spent: 309.3826 seconds
-   Client 2 model file size: 233.6859 MB
-   Client 2 model file has been decompressed and decrypted, time spent: 1.9909 seconds
+   Key: b'D39wlizQSuynNVIslW_DzbkqkvO__AjdaQt5x_A9jmQ='
+   Seed: 0.60615668
+   Salt: b'\xca\xb9\x92\x11>\xe1\x97\xc1\xf6\x13I\x04NQ{"'
+   
+   Receiving Client 2 model file: 100%|██████████████████████████████████████| 108M/108M [01:04<00:00, 1.74MB/s]
+   Client 2 model file has been received, time spent: 64.8709 seconds
+   Client 2 model file size: 107.7409 MB
+   Client 2 model file has been decompressed and decrypted, time spent: 0.8955 seconds
    Client 2 model file has been saved to: ./received_models/client_2.joblib
    --------------------------------------------- Client 2 Completed ---------------------------------------------
    Connected to Client 3:
-   Address: ('127.0.0.1', 63090)
-    
+   Address: ('127.0.0.1', 54830)
+   
    Client 3 model decryption information:
-   Key: b'mSjV2eLxMvjrdPHDltRFuApMskXJB6WXRSSE4IIm1l0='
-   Seed: 0.09415671
-   Salt: b'\xb2\xb3U\x84&\xb8 /[\xa4\x1b$\xc1\xff\x17R'
-    
-   Receiving Client 3 model file: 100%|███████████████████████████████████████| 234M/234M [05:08<00:00, 795kB/s]
-   Client 3 model file has been received, time spent: 308.8740 seconds
-   Client 3 model file size: 234.2104 MB
-   Client 3 model file has been decompressed and decrypted, time spent: 1.9963 seconds
+   Key: b'yXP5THp4LPQSTGB_-xy8_x0H8HzaGJoUlzHZ6KfVWoY='
+   Seed: 0.60702304
+   Salt: b'\xbc\xd9xMwO\x87d\x91\x9e\xb5\xa8\xb9\xa8z\xd6'
+   
+   Receiving Client 3 model file: 100%|██████████████████████████████████████| 107M/107M [01:16<00:00, 1.48MB/s]
+   Client 3 model file has been received, time spent: 76.1133 seconds
+   Client 3 model file size: 107.3119 MB
+   Client 3 model file has been decompressed and decrypted, time spent: 1.1386 seconds
    Client 3 model file has been saved to: ./received_models/client_3.joblib
    --------------------------------------------- Client 3 Completed ---------------------------------------------
    --------------------------------------- All Clients Have Been Processed --------------------------------------
    Training the global model using network traffic data ...
-   Label distribution in the training set: {0: 201341, 1: 1940759}
+   Target distribution: {0: 98809, 1: 63943}
    
-   Global model training completed in 166.3271 seconds.
+   Global model training completed in 6.8305 seconds.
    Global model saved to: ./received_models/global_model.joblib
    -------------------------------------------------- All Done --------------------------------------------------
    ```
@@ -109,118 +109,70 @@ This is a Wireless Sensor Network (WSN) Intrusion Detection model which includes
    C:\Users>python client1.py
    Client 1:
    
-   Label distribution in the training set: {0: 67352, 1: 646681}
-    
-   Client 1 model training completed in 66.3018 seconds.
+   Target distribution: {0: 32980, 1: 21270}
+   
+   Client 1 model training completed in 8.9069 seconds.
    Client 1 model saved to: ./client_models/client_1.joblib
-    
+   
    Client 1 model encryption information:
-   Key: b'6UtywGHbi8npnxPyY4P83P5XcQDHxJuq_lwzaIVxIPc='
-   Seed: 0.09432617
-   Salt: b'g\x84P\xa2^#8\x1b\xc0\xca\xdf\xad\x0bn%\xec'
-    
-   Model file size: 233.8386 MB
-   Model file encrypted, file size: 311.7849 MB, time spent: 1.3153 seconds
-   Model file compressed, file size: 236.1866 MB, time spent: 8.6439 seconds
-    
+   Key: b'ZJg3BjY6SI0hL9h8IYYf9GxsUR5aqtd6ntQU5wXpjTs='
+   Seed: 0.60792627
+   Salt: b'\x03\x02\x8a\xcd\xe5\xd2\xdf\xfa\x00q\xc3\xee~\x85\xef\xdf'
+   
+   Model file size: 106.4457 MB
+   Model file encrypted, file size: 141.9277 MB, time spent: 0.7266 seconds
+   Model file compressed, file size: 107.5145 MB, time spent: 5.2522 seconds
+   
    Client 1 has connected to the server
-   Model file has been sent from Client 1, file size: 236.1866 MB, time spent: 0.0368 seconds
+   Model file has been sent from Client 1, file size: 107.5145 MB, time spent: 0.0100 seconds
    ----------------------------------- Client 1 Completed -----------------------------------
-    
+   
    C:\Users>python client2.py
    Client 2:
-    
-   Label distribution in the training set: {0: 67143, 1: 646890}
-    
-   Client 2 model training completed in 65.8010 seconds.
+   
+   Target distribution: {0: 32884, 1: 21366}
+   
+   Client 2 model training completed in 8.3103 seconds.
    Client 2 model saved to: ./client_models/client_2.joblib
-    
+   
    Client 2 model encryption information:
-   Key: b'1newWib-Z_CJtKuNV5Fylr5kQYADwFF8nm-LPthaYL0='
-   Seed: 0.09403347
-   Salt: b'\x05\xa7\x9f\xab)\x96\xaeH|\xf1Z\xdd\xe2\x01\x9e\x1f'
-    
-   Model file size: 231.3624 MB
-   Model file encrypted, file size: 308.4833 MB, time spent: 1.2568 seconds
-   Model file compressed, file size: 233.6859 MB, time spent: 8.4879 seconds
-    
+   Key: b'D39wlizQSuynNVIslW_DzbkqkvO__AjdaQt5x_A9jmQ='
+   Seed: 0.60615668
+   Salt: b'\xca\xb9\x92\x11>\xe1\x97\xc1\xf6\x13I\x04NQ{"'
+   
+   Model file size: 106.6699 MB
+   Model file encrypted, file size: 142.2266 MB, time spent: 0.5947 seconds
+   Model file compressed, file size: 107.7409 MB, time spent: 3.8984 seconds
+   
    Client 2 has connected to the server
-   Model file has been sent from Client 2, file size: 233.6859 MB, time spent: 0.0360 seconds
+   Model file has been sent from Client 2, file size: 107.7409 MB, time spent: 0.0080 seconds
    ----------------------------------- Client 2 Completed -----------------------------------
-    
+   
    C:\Users>python client3.py
    Client 3:
-    
-   Label distribution in the training set: {0: 67231, 1: 646802}
-    
-   Client 3 model training completed in 86.3497 seconds.
+   
+   Target distribution: {0: 32931, 1: 21319}
+   
+   Client 3 model training completed in 8.1050 seconds.
    Client 3 model saved to: ./client_models/client_3.joblib
-    
+   
    Client 3 model encryption information:
-   Key: b'mSjV2eLxMvjrdPHDltRFuApMskXJB6WXRSSE4IIm1l0='
-   Seed: 0.09415671
-   Salt: b'\xb2\xb3U\x84&\xb8 /[\xa4\x1b$\xc1\xff\x17R'
-    
-   Model file size: 231.8829 MB
-   Model file encrypted, file size: 309.1773 MB, time spent: 1.7127 seconds
-   Model file compressed, file size: 234.2104 MB, time spent: 11.1032 seconds
-    
+   Key: b'yXP5THp4LPQSTGB_-xy8_x0H8HzaGJoUlzHZ6KfVWoY='
+   Seed: 0.60702304
+   Salt: b'\xbc\xd9xMwO\x87d\x91\x9e\xb5\xa8\xb9\xa8z\xd6'
+   
+   Model file size: 106.2449 MB
+   Model file encrypted, file size: 141.6600 MB, time spent: 0.5654 seconds
+   Model file compressed, file size: 107.3119 MB, time spent: 3.8393 seconds
+   
    Client 3 has connected to the server
-   Model file has been sent from Client 3, file size: 234.2104 MB, time spent: 0.0410 seconds
+   Model file has been sent from Client 3, file size: 107.3119 MB, time spent: 0.0080 seconds
    ----------------------------------- Client 3 Completed -----------------------------------
    ```
 
 3. Models aggregated prediction result:   
    ```bash
-   # See 'Demo_Aggregated_Prediction.ipynb', section 2.  
-    
-   Sensor Model 1 Prediction Results:
-   -----------------------------
-   Accuracy : 0.9948945802161988
-   Precision: 0.9949071505553502
-   Recall   : 0.9948945802161988
-   F1 Score : 0.9948368269221267
-   -----------------------------
-    
-   Sensor Model 2 Prediction Results:
-   -----------------------------
-   Accuracy : 0.9951157025153479
-   Precision: 0.9951292350952945
-   Recall   : 0.9951157025153479
-   F1 Score : 0.9950620924030881
-   -----------------------------
-    
-   Sensor Model 3 Prediction Results:
-   -----------------------------
-   Accuracy : 0.9951178810601671
-   Precision: 0.9951288620267749
-   Recall   : 0.9951178810601671
-   F1 Score : 0.99506536079325
-   -----------------------------
-    
-   Network Model Prediction Results:
-   -----------------------------
-   Accuracy : 0.9921430781095459
-   Precision: 0.9921319168507041
-   Recall   : 0.9921430781095459
-   F1 Score : 0.9920233509476573
-   -----------------------------
-    
-   Aggregated Prediction by Score:
-   -----------------------------
-   Accuracy : 0.9921430781095459
-   Precision: 0.9921319168507041
-   Recall   : 0.9921430781095459
-   F1 Score : 0.9920233509476573
-   -----------------------------
-    
-   Aggregated Prediction by Vote:
-   -----------------------------
-   Accuracy : 0.9840606768303044
-   Precision: 0.9843363473211927
-   Recall   : 0.9840606768303044
-   F1 Score : 0.9833946776071637
-   -----------------------------
+   # See 'Demo_Aggregated_Prediction.ipynb'
    ```
 
 

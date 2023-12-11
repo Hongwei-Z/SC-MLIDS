@@ -12,9 +12,6 @@ warnings.simplefilter('ignore')
 
 client_id = 1
 print(f"Client {client_id}:\n")
-HOST = '127.0.0.1'
-PORT = 8080
-
 
 # Get the dataset for local model
 X_train, y_train = helper.load_sensor_train_set(client_id - 1)
@@ -36,34 +33,38 @@ filename = f'{path}/client_{client_id}.joblib'
 joblib.dump(model, filename=filename)
 print(f"Client {client_id} model saved to: {filename}")
 
-
-# Encrypt and compress model file
+# Generate and display encryption information
 salt = os.urandom(16)
 key = helper.generate_key(ratio, salt)
 print(f"\nClient {client_id} model encryption information:")
 print(f"Key: {key}\nSeed: {ratio}\nSalt: {salt}\n")
 
+# Read model file
 with open(filename, 'rb') as file:
     model_file = file.read()
 print(f"Model file size: {(len(model_file) / (1024 ** 2)):.4f} MB")
 
+# Encrypt the model file
 encr_start = time.time()
 encrypted_model = Fernet(key).encrypt(model_file)
 encr_end = time.time()
 print(f"Model file encrypted, file size: {(len(encrypted_model) / (1024 ** 2)):.4f} MB, "
       f"time spent: {encr_end - encr_start:.4f} seconds")
 
+# Compress the model file
 comp_start = time.time()
 compressed_model = zlib.compress(encrypted_model)
 comp_end = time.time()
 print(f"Model file compressed, file size: {(len(compressed_model) / (1024 ** 2)):.4f} MB, "
       f"time spent: {comp_end - comp_start:.4f} seconds")
 
+# Define host and port
+host, port = helper.get_host_port()
 
 try:
     # Connect to the server
     client = socket.socket()
-    client.connect((HOST, PORT))
+    client.connect((host, port))
     print(f"\nClient {client_id} has connected to the server")
 
     # Send salt, client id, file size, ratio

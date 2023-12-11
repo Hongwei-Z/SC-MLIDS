@@ -9,8 +9,6 @@ import joblib
 from tqdm import tqdm
 
 CLIENTS = 3
-HOST = "127.0.0.1"
-PORT = 8080
 
 
 # Receive model info and file from clients
@@ -32,10 +30,6 @@ def connect_clients(connection, address):
     client_id, file_size, ratio = client_info.split(',')
     print(f'Connected to Client {client_id}:\nAddress: {address}\n')
 
-    # Save ratio locally
-    with open(f'{path}/ratio.txt', 'a') as f:
-        f.write(f"{client_id}:{ratio}\n")
-
     # Generate the key
     key = helper.generate_key(float(ratio), salt)
     print(f"Client {client_id} model decryption information:")
@@ -46,9 +40,8 @@ def connect_clients(connection, address):
     received_size = 0
     file_size = int(file_size)
 
-    with tqdm(range(file_size),
-              f"Receiving Client {client_id} model file",
-              unit="B", unit_scale=True, unit_divisor=1024) as progress:
+    with tqdm(range(file_size), f"Receiving Client {client_id} model file", unit="B",
+              unit_scale=True, unit_divisor=1024) as progress:
         recv_start = time.time()
         while received_size < file_size:
             data = connection.recv(16384)
@@ -85,30 +78,29 @@ def connect_clients(connection, address):
 
 
 server = socket.socket()
-server.bind((HOST, PORT))
+host, port = helper.get_host_port()
+server.bind((host, port))
 server.listen(CLIENTS)
 
+# Process all clients
 print('Server is waiting for connections ...\n' + "-" * 110)
-
 for _ in range(CLIENTS):
     connection, address = server.accept()
     connect_clients(connection, address)
     connection.close()
 print("-" * 39 + ' All Clients Have Been Processed ' + "-" * 38)
 
-# Train the network model
-print("Training the global model using network traffic data ...")
-network_train = helper.load_network_train_set()
-X = network_train.iloc[:, :-1]
-y = network_train.iloc[:, -1]
-helper.print_label_distribution(y)
+# Load the network training set
+print("\nTraining the global model using network traffic data ...")
+X_train, y_train = helper.load_network_train_set()
+helper.print_label_distribution(y_train)
 
+# Train the network model
 network_model = RandomForestClassifier()
 train_start = time.time()
-network_model.fit(X, y)
+network_model.fit(X_train, y_train)
 train_end = time.time()
-train_time = train_end - train_start
-print(f"Global model training completed in {train_time:.4f} seconds.")
+print(f"Global model training completed in {(train_end - train_start):.4f} seconds.")
 
 # Generate model file
 global_file = './received_models/global_model.joblib'

@@ -1,6 +1,8 @@
 import helper
 import joblib
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import RocCurveDisplay
 
 
 def aggregate_predict_by_score(models_predictions, models_metrics, models_weights, precision_weight=0.6, f1_weight=0.4):
@@ -86,8 +88,9 @@ def aggregate_predict_by_vote(models_predictions):
     return final_prediction
 
 
-# Testing models using testing sets to obtain predictions and performance metrics
 def get_predictions_and_metrics(local_models, sensor_test, global_model, network_test):
+    # Testing models using testing sets to obtain predictions and performance metrics
+
     sensor_x = sensor_test.iloc[:, :-1]
     sensor_y = sensor_test.iloc[:, -1]
     network_x = network_test.iloc[:, :-1]
@@ -95,22 +98,38 @@ def get_predictions_and_metrics(local_models, sensor_test, global_model, network
 
     models_metrics = []
     models_predictions = []
+    fig, ax = plt.subplots()
 
     # Test the local models and show the metrics
-    for i in range(len(local_models)):
-        local_model = joblib.load(local_models[i])
+    for i, model_path in enumerate(local_models):
+        local_model = joblib.load(model_path)
         s_predict = local_model.predict(sensor_x)
+        s_predict_proba = local_model.predict_proba(sensor_x)[:, 1]
         models_predictions.append(s_predict)
+
         print(f"Sensor Model {i + 1} Prediction Results:")
         accuracy, precision, recall, f1 = helper.get_metrics(sensor_y, s_predict, printout=True)
         models_metrics.append([precision, f1])
 
+        # Draw ROC curve
+        RocCurveDisplay.from_predictions(sensor_y, s_predict_proba, name=f'Sensor Model {i + 1}', ax=ax)
+
     # Test the global model and show the metrics
     network_model = joblib.load(global_model)
     n_predict = network_model.predict(network_x)
+    n_predict_proba = network_model.predict_proba(network_x)[:, 1]
     models_predictions.append(n_predict)
+
     print(f"Network Model Prediction Results:")
     accuracy, precision, recall, f1 = helper.get_metrics(network_y, n_predict, printout=True)
     models_metrics.append([precision, f1])
+
+    RocCurveDisplay.from_predictions(network_y, n_predict_proba, name='Network Model', ax=ax)
+
+    plt.title('Receiver Operating Characteristic (ROC) Curves')
+    plt.xlabel('False Positive Rate (FPR)')
+    plt.ylabel('True Positive Rate (TPR)')
+    plt.legend(loc="lower right")
+    plt.show()
 
     return models_predictions, models_metrics
