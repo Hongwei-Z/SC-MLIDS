@@ -1,4 +1,4 @@
-### Temporary Title: United Learning - A Distributed Machine Learning Intrusion Detection Model for Wireless Sensor Networks
+### Temporary Title: United Learning - A Hybrid Machine Learning Intrusion Detection Model for Wireless Sensor Networks
 (United, Allied, Synergistic, Integrated, Associated, Networked) Learning
 
 Author: Hongwei Zhang
