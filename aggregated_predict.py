@@ -88,7 +88,7 @@ def aggregate_predict_by_vote(models_predictions):
     return final_prediction
 
 
-def get_predictions_and_metrics(local_models, sensor_test, global_model, network_test):
+def get_predictions_and_metrics(local_models, sensor_test, global_model, network_test, roc=True):
     # Testing models using testing sets to obtain predictions and performance metrics
 
     sensor_x = sensor_test.iloc[:, :-1]
@@ -104,32 +104,33 @@ def get_predictions_and_metrics(local_models, sensor_test, global_model, network
     for i, model_path in enumerate(local_models):
         local_model = joblib.load(model_path)
         s_predict = local_model.predict(sensor_x)
-        s_predict_proba = local_model.predict_proba(sensor_x)[:, 1]
         models_predictions.append(s_predict)
 
         print(f"Sensor Model {i + 1} Prediction Results:")
         accuracy, precision, recall, f1 = helper.get_metrics(sensor_y, s_predict, printout=True)
         models_metrics.append([precision, f1])
 
-        # Draw ROC curve
-        RocCurveDisplay.from_predictions(sensor_y, s_predict_proba, name=f'Sensor Model {i + 1}', ax=ax)
+        if roc:
+            # Draw ROC curve
+            s_predict_proba = local_model.predict_proba(sensor_x)[:, 1]
+            RocCurveDisplay.from_predictions(sensor_y, s_predict_proba, name=f'Sensor Model {i + 1}', ax=ax)
 
     # Test the global model and show the metrics
     network_model = joblib.load(global_model)
     n_predict = network_model.predict(network_x)
-    n_predict_proba = network_model.predict_proba(network_x)[:, 1]
     models_predictions.append(n_predict)
 
     print(f"Network Model Prediction Results:")
     accuracy, precision, recall, f1 = helper.get_metrics(network_y, n_predict, printout=True)
     models_metrics.append([precision, f1])
 
-    RocCurveDisplay.from_predictions(network_y, n_predict_proba, name='Network Model', ax=ax)
-
-    plt.title('Receiver Operating Characteristic (ROC) Curves')
-    plt.xlabel('False Positive Rate (FPR)')
-    plt.ylabel('True Positive Rate (TPR)')
-    plt.legend(loc="lower right")
-    plt.show()
+    if roc:
+        n_predict_proba = network_model.predict_proba(network_x)[:, 1]
+        RocCurveDisplay.from_predictions(network_y, n_predict_proba, name='Network Model', ax=ax)
+        plt.title('Receiver Operating Characteristic (ROC) Curves')
+        plt.xlabel('False Positive Rate (FPR)')
+        plt.ylabel('True Positive Rate (TPR)')
+        plt.legend(loc="lower right")
+        plt.show()
 
     return models_predictions, models_metrics
