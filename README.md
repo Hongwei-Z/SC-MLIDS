@@ -1,5 +1,5 @@
-## LG-MLIDS: A Hybrid Machine Learning Intrusion Detection Scheme for Wireless Sensor Networks with Local and Global Model Integration
-### LG-MLIDS: Local-Global Machine Learning Intrusion Detection Scheme
+## SC-MLIDS: A Hybrid Machine Learning Intrusion Detection Scheme for Wireless Sensor Networks with Server and Client Model Integration
+### SC-MLIDS (Server-Client Machine Learning Intrusion Detection Scheme) 
 
 #### Author: Hongwei Zhang
 #### Dalhousie University
