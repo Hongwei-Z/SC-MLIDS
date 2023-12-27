@@ -51,9 +51,10 @@ def aggregate_predict_by_score(models_predictions, models_metrics, models_weight
 
 def aggregate_predict_by_vote(models_predictions):
     """
-        Voting based on model predictions,
-        if all sensor models and network models predict a result of 0, then the result is 0.
-        Otherwise, the result is 1.
+        Voting based on model predictions.
+        If 2/3 of the sensor model predictions are 1, the sensor model prediction is 1, otherwise, the result is 0.
+        If the sensor model prediction is the same as the network traffic model prediction,
+        it is the final prediction, otherwise, it is 1.
 
         Parameters:
             models_predictions - A 2D array containing the arrays of predictions for each model.
@@ -69,7 +70,7 @@ def aggregate_predict_by_vote(models_predictions):
         for j in range(len(models_predictions) - 1):
             result_sum += models_predictions[j][i]
 
-        if result_sum >= 1:
+        if result_sum >= 2:
             vote = 1
         else:
             vote = 0
@@ -98,7 +99,9 @@ def get_predictions_and_metrics(local_models, sensor_test, global_model, network
 
     models_metrics = []
     models_predictions = []
-    fig, ax = plt.subplots()
+
+    if roc:
+        fig, ax = plt.subplots()
 
     # Test the local models and show the metrics
     for i, model_path in enumerate(local_models):
