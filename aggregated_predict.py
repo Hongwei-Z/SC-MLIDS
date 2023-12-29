@@ -11,15 +11,12 @@ def aggregate_predict_by_score(models_predictions, models_metrics, models_weight
     and their performance metrics, which means that each prediction is adjusted
     according to the importance (weights) and performance (weighted metrics) of the model.
 
-    Parameters:
-        models_predictions - A 2D array containing the arrays of predictions for each model.
-        models_metrics - A 2D array containing the Precision and F1 for each model.
-        models_weights - Array containing the weight of each model, the sum of which is 1.
-        precision_weight - Floating point, the precision weight.
-        f1_weight - Floating point, the f1 weight.
-
-    Returns:
-        Array of final predictions given after integrating all models.
+    :param models_predictions: A 2D array containing the arrays of predictions for each model.
+    :param models_metrics: A 2D array containing the Precision and F1 for each model.
+    :param models_weights: Array containing the weight of each model, the sum of which is 1.
+    :param precision_weight: Floating point, the precision weight.
+    :param f1_weight: Floating point, the f1 weight.
+    :return: Array of final predictions given after integrating all models.
     """
 
     # Calculate weighted scores using precision and f1
@@ -35,47 +32,35 @@ def aggregate_predict_by_score(models_predictions, models_metrics, models_weight
         weighted_pred = models_predictions[i] * models_weights[i] * weighted_scores[i]
         weighted_predictions.append(weighted_pred)
 
-    '''
-    The sum of the weighted predictions for all models is calculated and divided by 
-    the sum of all model weights and weighted scores. This gives an average value that 
-    reflects the combined predictions of all models.
-    '''
     results = sum(weighted_predictions) / np.sum(models_weights * weighted_scores)
 
     # Converting predictions to binary classification results
     threshold = 0.5
     final_prediction = np.where(results >= threshold, 1, 0)
-
     return final_prediction
 
 
 def aggregate_predict_by_vote(models_predictions):
     """
-        Voting based on model predictions.
-        If 2/3 of the sensor model predictions are 1, the sensor model prediction is 1, otherwise, the result is 0.
-        If the sensor model prediction is the same as the network traffic model prediction,
-        it is the final prediction, otherwise, it is 1.
+    Voting based on model predictions.
+    If 2/3 of the sensor model predictions are 1, the sensor model prediction is 1, otherwise, the result is 0.
+    If the sensor model prediction is the same as the network traffic model prediction,
+    it is the final prediction, otherwise, it is 1.
 
-        Parameters:
-            models_predictions - A 2D array containing the arrays of predictions for each model.
-
-        Returns:
-            Array of final predictions given after integrating all models.
+    :param models_predictions: A 2D array containing the arrays of predictions for each model.
+    :return: Array of final predictions given after integrating all models.
     """
 
     majority_votes = []
-
     for i in range(len(models_predictions[0])):
         result_sum = 0
         for j in range(len(models_predictions) - 1):
             result_sum += models_predictions[j][i]
-
         if result_sum >= 2:
             vote = 1
         else:
             vote = 0
         majority_votes.append(vote)
-
     majority_votes = np.array(majority_votes)
 
     final_prediction = []
@@ -85,7 +70,6 @@ def aggregate_predict_by_vote(models_predictions):
         else:
             final_prediction.append(1)
     final_prediction = np.array(final_prediction)
-
     return final_prediction
 
 

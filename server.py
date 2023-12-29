@@ -1,12 +1,13 @@
 import helper
+from sklearn.ensemble import RandomForestClassifier
+from cryptography.fernet import Fernet
 import socket
 import os
 import time
-from cryptography.fernet import Fernet
 import zlib
-from sklearn.ensemble import RandomForestClassifier
 import joblib
 from tqdm import tqdm
+
 
 CLIENTS = 3
 

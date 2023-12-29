@@ -1,11 +1,11 @@
 import helper
+from sklearn.ensemble import RandomForestClassifier
+from cryptography.fernet import Fernet
 import socket
 import joblib
-from sklearn.ensemble import RandomForestClassifier
+import zlib
 import os
 import time
-from cryptography.fernet import Fernet
-import zlib
 import warnings
 warnings.simplefilter('ignore')
 
