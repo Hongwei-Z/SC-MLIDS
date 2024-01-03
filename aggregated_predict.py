@@ -93,27 +93,27 @@ def get_predictions_and_metrics(local_models, sensor_test, global_model, network
         s_predict = local_model.predict(sensor_x)
         models_predictions.append(s_predict)
 
-        print(f"Sensor Model {i + 1} Prediction Results:")
+        print(f"Client {i + 1} Prediction Results:")
         accuracy, precision, recall, f1 = helper.get_metrics(sensor_y, s_predict, printout=True)
         models_metrics.append([precision, f1])
 
         if roc:
             # Draw ROC curve
             s_predict_proba = local_model.predict_proba(sensor_x)[:, 1]
-            RocCurveDisplay.from_predictions(sensor_y, s_predict_proba, name=f'Sensor Model {i + 1}', ax=ax)
+            RocCurveDisplay.from_predictions(sensor_y, s_predict_proba, name=f'Client {i + 1}', ax=ax)
 
     # Test the global model and show the metrics
     network_model = joblib.load(global_model)
     n_predict = network_model.predict(network_x)
     models_predictions.append(n_predict)
 
-    print(f"Network Model Prediction Results:")
+    print(f"Server Prediction Results:")
     accuracy, precision, recall, f1 = helper.get_metrics(network_y, n_predict, printout=True)
     models_metrics.append([precision, f1])
 
     if roc:
         n_predict_proba = network_model.predict_proba(network_x)[:, 1]
-        RocCurveDisplay.from_predictions(network_y, n_predict_proba, name='Network Model', ax=ax)
+        RocCurveDisplay.from_predictions(network_y, n_predict_proba, name='Server', ax=ax)
         plt.title('Receiver Operating Characteristic (ROC) Curves')
         plt.xlabel('False Positive Rate (FPR)')
         plt.ylabel('True Positive Rate (TPR)')
