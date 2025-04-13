@@ -1,0 +1,21 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: SC-MLIDS
+message: Please cite this software using these metadata.
+type: software
+authors:
+  - given-names: Hongwei
+    family-names: Zhang
+    email: hongweizhang@dal.ca
+    affiliation: Dalhousie University
+    orcid: 'https://orcid.org/0000-0002-4741-7060'
+identifiers:
+  - type: url
+    value: 'https://github.com/Hongwei-Z/SC-MLIDS'
+repository-code: 'https://github.com/Hongwei-Z/SC-MLIDS'
+abstract: >-
+  Fusion-Based Machine Learning Framework for Intrusion
+  Detection in Wireless Sensor Networks
+license: Apache-2.0
