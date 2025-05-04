@@ -18,7 +18,7 @@ DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 8080
 DEFAULT_TEST_SIZE = 0.2
 SENSOR_FEATURE_COUNT = 3
-DATASET_PATH = './datasets/merged_data.csv'
+DATASET_PATH = 'Dataset/merged_data.csv'
 KDF_ITERATIONS = 100000
 KDF_LENGTH = 32
 
@@ -29,7 +29,7 @@ def get_host_port() -> Tuple[str, int]:
 
 
 def split_dataset(test_size: float = DEFAULT_TEST_SIZE) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    # Split the dataset into training and test sets.
+    # Split the Dataset into training and test sets.
     try:
         df = pd.read_csv(DATASET_PATH)
         train_set, test_set = train_test_split(df, test_size=test_size, shuffle=True, random_state=42)
@@ -38,17 +38,17 @@ def split_dataset(test_size: float = DEFAULT_TEST_SIZE) -> Tuple[pd.DataFrame, p
     except FileNotFoundError:
         raise FileNotFoundError(f"Dataset file not found: {DATASET_PATH}!")
     except Exception as e:
-        raise Exception(f"Error splitting dataset: {str(e)}!")
+        raise Exception(f"Error splitting Dataset: {str(e)}!")
 
 
 def split_train_set() -> Tuple[pd.DataFrame, pd.DataFrame]:
-    # Split the training set into sensor and network datasets.
+    # Split the training set into sensor and network Dataset.
     train_set, _ = split_dataset()
 
-    # Sensor dataset, first 3 features + labels
+    # Sensor Dataset, first 3 features + labels
     sensor_train = train_set.iloc[:, list(range(SENSOR_FEATURE_COUNT)) + [-1]]
 
-    # Network dataset (features 3-16)
+    # Network Dataset (features 3-16)
     network_train = train_set.iloc[:, SENSOR_FEATURE_COUNT:17]
 
     return sensor_train, network_train
@@ -81,7 +81,7 @@ def load_sensor_train_set(client_id: int) -> Optional[Tuple[pd.DataFrame, pd.Ser
         x = x.drop(random_choose)
         y = y.drop(random_choose)
 
-    # Split the dataset for clients (adjust index because client_id is 1-based)
+    # Split the Dataset for clients (adjust index because client_id is 1-based)
     client_idx = client_id - 1
     split_indices = np.array_split(x.index, NUM_CLIENTS)
     client_indices = split_indices[client_idx]
@@ -203,7 +203,6 @@ class ResourceMonitor:
         }
 
 
-# Legacy function wrappers for backward compatibility
 def monitor_resources():
     # Legacy function for starting resource monitoring.
     monitor = ResourceMonitor()
